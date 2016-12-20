@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using WebApplication.Data;
 using WebApplication.Models;
 using WebApplication.Services;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace WebApplication
 {
@@ -47,6 +48,8 @@ namespace WebApplication
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            // services.AddEntityFramework()
+            //         .AddDbContext<Models.ApplicationDbContext>();
             services.AddMvc();
 
             // Add application services.

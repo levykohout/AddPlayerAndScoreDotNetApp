@@ -3,10 +3,17 @@
 
     <h1>Players</h1>
     <a asp-action="Create" asp-controller="Player">Create new player</a>
-
-    <ul>
+<table>
+   
         @foreach(var player in Model)
         {
-            <li><a asp-action="Details" asp-controller="Player" asp-route-id="@player.Id"> @player.Name</a></li>
+            <tr>
+            <td><a asp-action="Details" asp-controller="Player" asp-route-id="@player.Id"> @player.Name</a></td>
+                <!--<td> <button asp-action="Delete" asp-controller="Player" asp-route-id="@player.Id" value="@player.Id">Delete Player</button></td>-->
+              <td>  @Html.ActionLink("Update", "Update", new { id=@player.Id }) | 
+               @Html.ActionLink("Details", "Details", new { id=@player.Id }) | 
+               @Html.ActionLink("Delete", "Delete", new { id=@player.Id })</td>
+               </tr>
         }
-    </ul>
+
+</table>

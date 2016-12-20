@@ -1,7 +1,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq; //gives access to lambda expression used in CRUD method
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication.Models; //needed to access Player class/object
@@ -51,11 +51,50 @@ namespace WebApplication.Controllers
             var model = _context.Players.Include(e=>e.Scores).FirstOrDefault(e=>e.Id==id);
             return View(model);
         }
-        public IActionResult AddScore(int id, int value) {
+        public IActionResult AddScore(int id, int value) 
+        {
             _context.Players.Include(e => e.Scores).FirstOrDefault(e => e.Id == id).Scores.Add(new Score{Value = value});
             _context.SaveChanges();
             return RedirectToAction("Details","Player", new {Id = id});
         }
+
+       
+
+        public IActionResult Delete(int id)
+        {
+            var original = _context.Players.Include(e=>e.Scores).FirstOrDefault(e=>e.Id==id);
+            if(original != null){
+                _context.Players.Remove(original);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        // GET: /Movies/Edit/5
+public ActionResult Update(int? id)
+{
+    // if (id == null)
+    // {
+    //     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+    // }
+    Player player = _context.Players.Include(e=>e.Scores).FirstOrDefault(e=>e.Id==id);
+    // if (player == null)
+    // {
+    //     return HttpNotFound();
+    // }
+    return View(player);
+}
+
+
+[HttpPost]
+
+ public IActionResult Update(Player player)
+        {
+            _context.Entry(player).State=EntityState.Modified;
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
 
     }
 }
